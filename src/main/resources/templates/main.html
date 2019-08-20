@@ -1,0 +1,81 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>主页面</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style>
+#list {
+	width: 550px;
+	height: 200px;
+	position: absolute;
+	left: 0;
+	top: 0;
+	bottom: 0;
+	right: 0;
+	margin: auto;
+}
+</style>
+</head>
+
+<body>
+	<div id="list">
+		<table border="1" cellspacing="0" cellpadding="3">
+			<tr>
+				<th>id</th>
+				<th>name</th>
+				<th>age</th>
+				<th>email</th>
+				<th colspan="2">操作</th>
+				<th rowspan="1" th:rowspan="${count+1}" ><button type="button" class="insert">添加</button></th>
+			</tr>
+			<tr th:each="user:${userlist}">
+				<td th:text="${user.id}">1001</td>
+				<td th:text="${user.name}">张三</td>
+				<td th:text="${user.age}">25</td>
+				<td th:text="${user.email}" id="xxx">1856579@qq.com</td>
+				<td><button type="button" class="delete">删除</button></td>
+				<td><button type="button" class="update">修改</button></td>
+				
+			</tr>
+			
+		</table>
+	</div>
+	<script src="https://cdn.bootcss.com/jquery/1.8.3/jquery.js"></script>
+	<script type="text/javascript">
+		//$(document).ready(function() {	
+		$(function() {
+			//删除
+			$(".delete").click(function() {
+						var thisdom = $(this);//定义当前节点
+						//获取当前删除的id值
+						var id = $(thisdom).parent().prev().prev().prev()
+								.prev().text();
+						$.get("http://localhost:9002/user/delete/" + id,
+								function(result) {
+									if (result) {
+										alert("删除成功");
+										//移除节点
+										$(thisdom).parent().parent().remove();
+									}
+								});
+					});
+
+			//修改
+			$(".update").click(
+					function() {
+						var thisdom = $(this);//定义当前节点
+						//获取当前删除的id值
+						var id = $(thisdom).parent().prev().prev().prev().prev().prev().text();
+						location.href = "http://localhost:9002/user/update/"+ id;
+					});
+			
+			//修改
+			$(".insert").click(
+					function() {
+						//获取当前删除的id值
+						location.href = "http://localhost:9002/user/insert";
+					});
+		});
+	</script>
+</body>
+</html>
