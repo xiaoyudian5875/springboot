@@ -21,11 +21,11 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.example.springboot.bean.User;
 import com.example.springboot.mapper.UserMapper;
 import com.example.springboot.service.UserService;
-
+//业务逻辑层
 @Controller
 public class UserController {
 
-	@Autowired
+	@Autowired//引用业务接口
 	private UserService service;
 
 	/**
@@ -34,13 +34,16 @@ public class UserController {
 	 * @param modl
 	 * @return
 	 */
-	@RequestMapping("/list")
+	@RequestMapping("/list")//url注解
 	public String findall(Model modl) {
+		//crud操作
 		List<User> list = service.list(null);
 		int count = service.count();
 		System.out.println("-------------------------->"+count);
 		modl.addAttribute("userlist", list);
+		//将数据存入modl里
 		modl.addAttribute("count", count);
+		//返回一个页面
 		return "main";
 	};
 
@@ -49,12 +52,12 @@ public class UserController {
 	 * 
 	 * @param id
 	 */
-	@RequestMapping("/delete/{id}")
-	public void deleteone(@PathVariable("id") String id, HttpServletResponse resp) {
+	@RequestMapping("/delete/{id}")//采用简单的传参方式
+	public void deleteone(@PathVariable("id") String id, HttpServletResponse resp) {//参数绑定
 		boolean i = service.removeById(id);
 		System.out.println(i);
 		try {
-			resp.getWriter().print(i);
+			resp.getWriter().print(i);//返回结构给前端
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -67,10 +70,9 @@ public class UserController {
 	 * @param id
 	 */
 	@GetMapping("/update/{id}")
-	// @ResponseBody
 	public String update(@PathVariable("id") String id, Model modl) {
 		User user = service.getById(id);
-		System.out.println(user);
+		//System.out.println(user);
 		modl.addAttribute("user", user);
 		return "update";
 	}
@@ -78,7 +80,7 @@ public class UserController {
 	/**
 	 * 修改前提交;
 	 * 
-	 * @param id
+	 * @param
 	 */
 	// http://localhost:9002/user/update01/?id=2&name=zhangsan&age=19&email=test2%40baomidou.com
 	@GetMapping("/update01")
@@ -91,7 +93,8 @@ public class UserController {
 		 */
 		System.out.println(user);
 		boolean b = service.updateById(user);
-		System.out.println(b);
+		//System.out.println(b);
+		//转发到指定的地址
 		return "redirect:/list";
 	}
 
@@ -103,6 +106,7 @@ public class UserController {
 	 */
 	@RequestMapping("/insert")
 	public String insert(Model modl) {
+		//跳转页面
 		return "insert";
 	}
 	/**
@@ -115,6 +119,7 @@ public class UserController {
 	public String adduser(User user, Model modl) {
 		boolean b = service.save(user);
 		System.out.println(b);
+		//跳转地址
 		return "redirect:/list";
 	}
 

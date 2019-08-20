@@ -7,11 +7,11 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
-@Data
-@TableName("`user`")
-@Accessors(chain=true)
-@NoArgsConstructor
-@ToString
+@Data//注解包
+@TableName("`user`")//表名映射
+@Accessors(chain=true)//连续书写
+@NoArgsConstructor//无参构造
+@ToString//tostring方法
 public class User {
 	public 	String id;
 	public String name;
